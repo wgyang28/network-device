@@ -1,0 +1,10 @@
+#!name=IPv6 校园网免流增强
+#!desc=强制开启 IPv6 隧道支持，优化 DNS 查询，实现全网免流。
+
+[General]
+ipv6 = true
+ipv6-vif = auto
+
+[DNS]
+query-v6 = true
+dns-server = 2400:3200::1, 2402:4e00::

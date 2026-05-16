@@ -1,0 +1,428 @@
+# 优化版 Clash Party Override 配置
+# 优化点：
+# 1. 规则集全部换用 MetaCubeX/mrs 格式（domain/ipcidr behavior），匹配速度大幅提升
+# 2. 域名类规则集用 domain behavior，IP 类用 ipcidr behavior，告别 classical 逐条匹配
+# 3. 来源换为持续维护的 MetaCubeX ruleset-geodata 和 Loyalsoldier
+# 4. 去除重复/冗余规则集（AI-MIX 和 OpenAi 内容重叠）
+# 5. url-test 组加 lazy: true，空闲时不测速减少开销
+
+proxy-groups:
+  - name: 节点选择
+    icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Proxy.png
+    type: select
+    proxies:
+      - 自动选择
+      - 台湾节点
+      - 狮城节点
+      - 日本节点
+      - 美国节点
+      - 香港节点
+      - 手动切换
+      - DIRECT
+  - name: 手动切换
+    icon: https://testingcf.jsdelivr.net/gh/shindgewongxj/WHATSINStash@master/icon/select.png
+    include-all: true
+    type: select
+  - name: 自动选择
+    icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Auto.png
+    type: url-test
+    include-all: true
+    interval: 300
+    tolerance: 50
+    lazy: true
+  - name: 电报消息
+    icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Telegram.png
+    type: select
+    proxies:
+      - 节点选择
+      - 自动选择
+      - 狮城节点
+      - 台湾节点
+      - 日本节点
+      - 美国节点
+      - 香港节点
+      - 手动切换
+      - DIRECT
+  - name: AI-UNHK
+    icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/AI.png
+    type: select
+    include-all: true
+    exclude-filter: (?i)港|HK|hk|Hong Kong|HongKong|hongkong
+    proxies:
+      - 节点选择
+      - 自动选择
+      - 狮城节点
+      - 台湾节点
+      - 日本节点
+      - 美国节点
+      - 手动切换
+      - DIRECT
+  - name: 油管视频
+    icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/YouTube.png
+    type: select
+    proxies:
+      - 节点选择
+      - 自动选择
+      - 狮城节点
+      - 香港节点
+      - 台湾节点
+      - 日本节点
+      - 美国节点
+      - 手动切换
+      - DIRECT
+  - name: 国外媒体
+    icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/ForeignMedia.png
+    type: select
+    proxies:
+      - 节点选择
+      - 自动选择
+      - 香港节点
+      - 台湾节点
+      - 狮城节点
+      - 日本节点
+      - 美国节点
+      - 手动切换
+      - DIRECT
+  - name: 谷歌FCM
+    icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Google_Search.png
+    type: select
+    proxies:
+      - DIRECT
+      - 节点选择
+      - 美国节点
+      - 台湾节点
+      - 狮城节点
+      - 日本节点
+      - 香港节点
+      - 手动切换
+  - name: 微软服务
+    icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Microsoft.png
+    type: select
+    proxies:
+      - DIRECT
+      - 香港节点
+      - 美国节点
+  - name: 苹果服务
+    icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Apple.png
+    type: select
+    proxies:
+      - DIRECT
+      - 节点选择
+      - 美国节点
+      - 香港节点
+      - 台湾节点
+      - 狮城节点
+      - 日本节点
+      - 手动切换
+  - name: 游戏平台
+    icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Game.png
+    type: select
+    proxies:
+      - DIRECT
+      - 节点选择
+      - 美国节点
+      - 香港节点
+      - 台湾节点
+      - 狮城节点
+      - 日本节点
+      - 手动切换  
+  - name: 漏网之鱼
+    icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Final.png
+    type: select
+    proxies:
+      - 节点选择
+      - 自动选择
+      - DIRECT
+      - 香港节点
+      - 台湾节点
+      - 狮城节点
+      - 日本节点
+      - 美国节点
+      - 手动切换
+  - name: 香港节点
+    icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Hong_Kong.png
+    include-all: true
+    filter: (?i)港|HK|hk|Hong Kong|HongKong|懒人
+    type: url-test
+    interval: 300
+    tolerance: 50
+    lazy: true
+  - name: 日本节点
+    icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Japan.png
+    include-all: true
+    filter: (?i)日本|川日|东京|大阪|泉日|埼玉|沪日|深日|JP|Japan
+    type: url-test
+    interval: 300
+    tolerance: 50
+    lazy: true
+  - name: 美国节点
+    icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/United_States.png
+    include-all: true
+    filter: (?i)美|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|拉斯维加斯|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥|US|United States
+    type: url-test
+    interval: 300
+    tolerance: 10
+    lazy: true
+  - name: 台湾节点
+    icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Taiwan.png
+    include-all: true
+    filter: (?i)台|新北|彰化|TW|Taiwan
+    type: url-test
+    interval: 300
+    tolerance: 50
+    lazy: true
+  - name: 狮城节点
+    icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Singapore.png
+    include-all: true
+    filter: (?i)新加坡|坡|狮城|SG|Singapore
+    type: url-test
+    interval: 300
+    tolerance: 50
+    lazy: true
+  - name: GLOBAL
+    icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Global.png
+    include-all: true
+    type: select
+    proxies:
+      - 节点选择
+      - 手动切换
+      - 自动选择
+      - DIRECT
+      - 香港节点
+      - 美国节点
+
+rule-providers:
+  # ── 直连 / 局域网 ──────────────────────────────────────────
+  LocalAreaNetwork:
+    type: http
+    behavior: ipcidr
+    format: mrs
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/private.mrs
+    path: ./ruleset/LocalAreaNetwork.mrs
+    interval: 86400
+
+  # ── 广告拦截 ───────────────────────────────────────────────
+  BanAD:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/category-ads-all.mrs
+    path: ./ruleset/BanAD.mrs
+    interval: 86400
+
+  # ── AI 服务（排除香港）─────────────────────────────────────
+  # 合并 OpenAI + 其他 AI，统一走 AI-UNHK
+  OpenAI:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/openai.mrs
+    path: ./ruleset/openai.mrs
+    interval: 86400
+
+  Anthropic:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/anthropic.mrs
+    path: ./ruleset/anthropic.mrs
+    interval: 86400
+
+  # ── Google FCM ─────────────────────────────────────────────
+  GoogleFCM:
+    type: http
+    behavior: classical
+    format: text
+    url: https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/Ruleset/GoogleFCM.list
+    path: ./ruleset/GoogleFCM.list
+    interval: 86400
+
+  # ── Google CN（直连）──────────────────────────────────────
+  GoogleCN:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/google@cn.mrs
+    path: ./ruleset/GoogleCN.mrs
+    interval: 86400
+
+  # ── 微软 ───────────────────────────────────────────────────
+  OneDrive:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/onedrive.mrs
+    path: ./ruleset/onedrive.mrs
+    interval: 86400
+
+  Microsoft:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/microsoft.mrs
+    path: ./ruleset/microsoft.mrs
+    interval: 86400
+
+  Bing:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/bing.mrs
+    path: ./ruleset/bing.mrs
+    interval: 86400
+
+  # ── 苹果 ───────────────────────────────────────────────────
+  Apple:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/apple.mrs
+    path: ./ruleset/apple.mrs
+    interval: 86400
+
+  # ── Telegram ───────────────────────────────────────────────
+  Telegram:
+    type: http
+    behavior: ipcidr
+    format: mrs
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/telegram.mrs
+    path: ./ruleset/telegram-ip.mrs
+    interval: 86400
+
+  TelegramDomain:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/telegram.mrs
+    path: ./ruleset/telegram-domain.mrs
+    interval: 86400
+
+  # ── 游戏平台 ───────────────────────────────────────────────
+  Steam:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/steam.mrs
+    path: ./ruleset/steam.mrs
+    interval: 86400
+
+  SteamCN:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/steam@cn.mrs
+    path: ./ruleset/steamcn.mrs
+    interval: 86400
+
+  Epic:
+    type: http
+    behavior: classical
+    format: text
+    url: https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/Ruleset/Epic.list
+    path: ./ruleset/Epic.list
+    interval: 86400
+
+  Nintendo:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/nintendo.mrs
+    path: ./ruleset/nintendo.mrs
+    interval: 86400
+
+  # ── 流媒体 ─────────────────────────────────────────────────
+  YouTube:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/youtube.mrs
+    path: ./ruleset/youtube.mrs
+    interval: 86400
+
+  Netflix:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/netflix.mrs
+    path: ./ruleset/netflix.mrs
+    interval: 86400
+
+  ProxyMedia:
+    type: http
+    behavior: classical
+    format: text
+    url: https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/ProxyMedia.list
+    path: ./ruleset/ProxyMedia.list
+    interval: 86400
+
+  # ── 代理域名（GFW）────────────────────────────────────────
+  ProxyGFWlist:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/gfw.mrs
+    path: ./ruleset/gfw.mrs
+    interval: 86400
+
+  # ── 中国域名（直连）──────────────────────────────────────
+  ChinaDomain:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/cn.mrs
+    path: ./ruleset/cn-domain.mrs
+    interval: 86400
+
+  # ── 中国 IP（直连）───────────────────────────────────────
+  ChinaIP:
+    type: http
+    behavior: ipcidr
+    format: mrs
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/cn.mrs
+    path: ./ruleset/cn-ip.mrs
+    interval: 86400
+
+rules:
+  # 局域网直连
+  - "RULE-SET,LocalAreaNetwork,DIRECT"
+  # 广告拦截
+  - "RULE-SET,BanAD,REJECT"
+  # AI 服务（不走香港）
+  - "RULE-SET,OpenAI,AI-UNHK"
+  - "RULE-SET,Anthropic,AI-UNHK"
+  # Google FCM
+  - "RULE-SET,GoogleFCM,谷歌FCM"
+  - "RULE-SET,GoogleCN,谷歌FCM"
+  # Steam CN 直连
+  - "RULE-SET,SteamCN,DIRECT"
+  # 微软服务
+  - "RULE-SET,Bing,微软服务"
+  - "RULE-SET,OneDrive,微软服务"
+  - "RULE-SET,Microsoft,微软服务"
+  # 苹果服务
+  - "RULE-SET,Apple,苹果服务"
+  # Telegram（域名 + IP 都要配）
+  - "RULE-SET,TelegramDomain,电报消息"
+  - "RULE-SET,Telegram,电报消息"
+  # 游戏平台
+  - "RULE-SET,Epic,游戏平台"
+  - "RULE-SET,Steam,游戏平台"
+  - "RULE-SET,Nintendo,游戏平台"
+  # 流媒体
+  - "RULE-SET,YouTube,油管视频"
+  - "RULE-SET,Netflix,国外媒体"
+  - "RULE-SET,ProxyMedia,国外媒体"
+  # 代理域名
+  - "RULE-SET,ProxyGFWlist,节点选择"
+  # Garmin+strava
+  - "DOMAIN,garmin.com,漏网之鱼"
+  - "DOMAIN,connect.garmin.com,漏网之鱼"
+  - "DOMAIN-SUFFIX,garmin.com,漏网之鱼"
+  - "DOMAIN-SUFFIX,garmin.cn,漏网之鱼"
+  - "DOMAIN-SUFFIX,strava.com,漏网之鱼"
+  # 中国域名/IP 直连
+  - "RULE-SET,ChinaDomain,DIRECT"
+  - "RULE-SET,ChinaIP,DIRECT,no-resolve"
+  # 兜底 GeoIP
+  - "GEOIP,CN,DIRECT"
+  - "MATCH,漏网之鱼"

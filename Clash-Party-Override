@@ -1,3 +1,7 @@
+#!name=我的覆写规则
+#!description=Clash Party 同步配置，含 MetaCubeX 规则集优化
+#!author=wgyang28
+#!version=1.0
 # 优化版 Clash Party Override 配置
 # 优化点：
 # 1. 规则集全部换用 MetaCubeX/mrs 格式（domain/ipcidr behavior），匹配速度大幅提升
@@ -6,7 +10,9 @@
 # 4. 去除重复/冗余规则集（AI-MIX 和 OpenAi 内容重叠）
 # 5. url-test 组加 lazy: true，空闲时不测速减少开销
 
-proxy-groups:
+proxy-groups-override: true
+
+proxy-groups: #!replace
   - name: 节点选择
     icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Proxy.png
     type: select
@@ -46,17 +52,14 @@ proxy-groups:
   - name: AI-UNHK
     icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/AI.png
     type: select
-    include-all: true
     exclude-filter: (?i)港|HK|hk|Hong Kong|HongKong|hongkong
     proxies:
       - 节点选择
-      - 自动选择
       - 狮城节点
       - 台湾节点
       - 日本节点
       - 美国节点
       - 手动切换
-      - DIRECT
   - name: 油管视频
     icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/YouTube.png
     type: select
@@ -83,6 +86,11 @@ proxy-groups:
       - 美国节点
       - 手动切换
       - DIRECT
+  - name: Zoom
+    type: select
+    proxies:
+      - DIRECT
+      - 美国节点
   - name: 谷歌FCM
     icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Google_Search.png
     type: select
@@ -364,6 +372,63 @@ rule-providers:
     path: ./ruleset/gfw.mrs
     interval: 86400
 
+
+  Instagram:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/instagram.mrs
+    path: ./ruleset/instagram.mrs
+    interval: 86400
+
+  Facebook:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/facebook.mrs
+    path: ./ruleset/facebook.mrs
+    interval: 86400
+
+  Twitter:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/twitter.mrs
+    path: ./ruleset/twitter.mrs
+    interval: 86400
+
+  Dropbox:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/dropbox.mrs
+    path: ./ruleset/dropbox.mrs
+    interval: 86400
+
+  Spotify:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/spotify.mrs
+    path: ./ruleset/spotify.mrs
+    interval: 86400
+
+  PayPal:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/paypal.mrs
+    path: ./ruleset/paypal.mrs
+    interval: 86400
+
+  BBC:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/bbc.mrs
+    path: ./ruleset/bbc.mrs
+    interval: 86400
+
   # ── 中国域名（直连）──────────────────────────────────────
   ChinaDomain:
     type: http
@@ -381,8 +446,54 @@ rule-providers:
     url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/cn.mrs
     path: ./ruleset/cn-ip.mrs
     interval: 86400
+    
+# ————————————————————————————
 
-rules:
+rules: #!replace
+  # ── 进程直连（macOS 专属）─────────────────────────────────
+  - "PROCESS-NAME,ToDesk,DIRECT"
+  - "PROCESS-NAME,APTV,DIRECT"
+  - "PROCESS-NAME,zoom,DIRECT"
+
+  - "PROCESS-NAME,zoom,Zoom"
+  - "DOMAIN-SUFFIX,zoom.us,Zoom"
+  - "DOMAIN-SUFFIX,zoom.com,Zoom"
+  - "DOMAIN-SUFFIX,zoomgov.com,Zoom"
+
+  # ── 学术 / 教育直连 ───────────────────────────────────────
+  - "DOMAIN-SUFFIX,ruc.edu.cn,DIRECT"
+  - "DOMAIN-SUFFIX,ucass.edu.cn,DIRECT"
+  - "DOMAIN-SUFFIX,cnki.net,DIRECT"
+  - "DOMAIN-KEYWORD,oversea.cnki,DIRECT"
+
+  # ── 其他直连 ──────────────────────────────────────────────
+  - "DOMAIN,dns.alidns.com,DIRECT"
+  - "DOMAIN,appstorrent.ru,DIRECT"
+  - "DOMAIN-SUFFIX,ra2web.com,DIRECT"
+  - "DOMAIN-SUFFIX,11af.cn,DIRECT"
+  - "DOMAIN-SUFFIX,cnouyi.care,DIRECT"
+  - "DOMAIN-KEYWORD,oyunfor.com,DIRECT"
+  - "DOMAIN-KEYWORD,nobepay,DIRECT"
+
+  # ── 社交媒体 ──────────────────────────────────────────────
+  - "DOMAIN-SUFFIX,reddit.com,漏网之鱼"
+  - "DOMAIN-SUFFIX,linkedin.com,漏网之鱼"
+  - "DOMAIN-SUFFIX,licdn.com,漏网之鱼"
+
+  # ── 流媒体 / 娱乐 ─────────────────────────────────────────
+  - "DOMAIN-SUFFIX,micu.hk,国外媒体"
+  - "DOMAIN-KEYWORD,mytvsuper,香港节点"
+  - "DOMAIN-SUFFIX,ptsplus.tv,台湾节点"
+
+  # ── 以下需要在 rule-providers 里补充对应规则集 ────────────
+  - "RULE-SET,Instagram,节点选择"
+  - "RULE-SET,Facebook,节点选择"
+  - "RULE-SET,Twitter,漏网之鱼"
+  - "RULE-SET,Dropbox,漏网之鱼"
+  - "RULE-SET,Spotify,国外媒体"
+  - "RULE-SET,PayPal,美国节点"
+  - "RULE-SET,BBC,国外媒体"
+
   # 局域网直连
   - "RULE-SET,LocalAreaNetwork,DIRECT"
   # 广告拦截
@@ -414,7 +525,7 @@ rules:
   - "RULE-SET,ProxyMedia,国外媒体"
   # 代理域名
   - "RULE-SET,ProxyGFWlist,节点选择"
-  # Garmin+strava
+  # Garmin/strava
   - "DOMAIN,garmin.com,漏网之鱼"
   - "DOMAIN,connect.garmin.com,漏网之鱼"
   - "DOMAIN-SUFFIX,garmin.com,漏网之鱼"

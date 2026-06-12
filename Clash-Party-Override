@@ -10,6 +10,8 @@
 # 4. 去除重复/冗余规则集（AI-MIX 和 OpenAi 内容重叠）
 # 5. url-test 组加 lazy: true，空闲时不测速减少开销
 
+name: clash策略组
+desc: by wgyang
 proxy-groups-override: true
 
 proxy-groups: #!replace

@@ -2,7 +2,7 @@ name: Stash策略组
 desc: by wgyang
 version: 1.0
 
-proxy-groups:
+proxy-groups: #!replace
   - name: 节点选择
     icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Proxy.png
     type: select
@@ -82,6 +82,13 @@ proxy-groups:
     proxies:
       - DIRECT
       - 美国节点
+  - name: PayPal
+    icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/PayPal.png
+    type: select
+    proxies:
+      - 美国节点
+      - 节点选择
+      - DIRECT
   - name: 谷歌FCM
     icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Google_Search.png
     type: select
@@ -402,7 +409,7 @@ rule-providers:
     path: ./ruleset/cn-ip.mrs
     interval: 86400
 
-rules:
+rules: #!replace
   - RULE-SET,Zoom,Zoom
   # 学术 / 教育直连
   - DOMAIN-SUFFIX,ruc.edu.cn,DIRECT
@@ -430,7 +437,7 @@ rules:
   - RULE-SET,Twitter,漏网之鱼
   - RULE-SET,Dropbox,漏网之鱼
   - RULE-SET,Spotify,国外媒体
-  - RULE-SET,PayPal,美国节点
+  - RULE-SET,PayPal,PayPal
   - RULE-SET,BBC,国外媒体
   # 局域网直连
   - RULE-SET,LocalAreaNetwork,DIRECT

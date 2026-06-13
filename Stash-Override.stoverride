@@ -39,11 +39,10 @@ proxy-groups: #!replace
       - 香港节点
       - 手动切换
       - DIRECT
-  - name: AI-UNHK
+  - name: AI
     icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/AI.png
     type: select
     include-all: true
-    exclude-filter: (?i)港|HK|hk|Hong Kong|HongKong|hongkong
     proxies:
       - 香港节点
       - 狮城节点
@@ -461,9 +460,9 @@ rules: #!replace
   - RULE-SET,LocalAreaNetwork,DIRECT
   # 广告拦截
   - RULE-SET,BanAD,REJECT
-  # AI 服务（不走香港）
-  - RULE-SET,OpenAI,AI-UNHK
-  - RULE-SET,Anthropic,AI-UNHK
+  # AI 服务
+  - RULE-SET,OpenAI,AI
+  - RULE-SET,Anthropic,AI
   # Google 通用服务
   - RULE-SET,Google,谷歌服务
   # Google FCM

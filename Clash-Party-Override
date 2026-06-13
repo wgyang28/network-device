@@ -89,7 +89,7 @@ proxy-groups: #!replace
       - 手动切换
       - DIRECT
   - name: Zoom
-    icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Zoom.png
+    icon: https://testingcf.jsdelivr.net/gh/Semporia/Hand-Painted-icon@master/Universal/Zoom.png
     type: select
     proxies:
       - DIRECT

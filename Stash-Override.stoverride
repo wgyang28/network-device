@@ -45,6 +45,8 @@ proxy-groups: #!replace
     include-all: true
     exclude-filter: (?i)港|HK|hk|Hong Kong|HongKong|hongkong
     proxies:
+      - 香港节点
+      - 狮城节点
       - 美国节点
   - name: 油管视频
     icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/YouTube.png

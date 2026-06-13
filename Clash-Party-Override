@@ -89,6 +89,7 @@ proxy-groups: #!replace
       - 手动切换
       - DIRECT
   - name: Zoom
+    icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Zoom.png
     type: select
     proxies:
       - DIRECT
@@ -431,6 +432,14 @@ rule-providers:
     path: ./ruleset/bbc.mrs
     interval: 86400
 
+  Zoom:
+    type: http
+    behavior: classical
+    format: text
+    url: https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/Ruleset/Zoom.list
+    path: ./ruleset/Zoom.list
+    interval: 86400
+
   # ── 中国域名（直连）──────────────────────────────────────
   ChinaDomain:
     type: http
@@ -455,12 +464,9 @@ rules: #!replace
   # ── 进程直连（macOS 专属）─────────────────────────────────
   - "PROCESS-NAME,ToDesk,DIRECT"
   - "PROCESS-NAME,APTV,DIRECT"
-  - "PROCESS-NAME,zoom,DIRECT"
 
   - "PROCESS-NAME,zoom,Zoom"
-  - "DOMAIN-SUFFIX,zoom.us,Zoom"
-  - "DOMAIN-SUFFIX,zoom.com,Zoom"
-  - "DOMAIN-SUFFIX,zoomgov.com,Zoom"
+  - "RULE-SET,Zoom,Zoom"
 
   # ── 学术 / 教育直连 ───────────────────────────────────────
   - "DOMAIN-SUFFIX,ruc.edu.cn,DIRECT"
@@ -528,8 +534,6 @@ rules: #!replace
   # 代理域名
   - "RULE-SET,ProxyGFWlist,节点选择"
   # Garmin/strava
-  - "DOMAIN,garmin.com,漏网之鱼"
-  - "DOMAIN,connect.garmin.com,漏网之鱼"
   - "DOMAIN-SUFFIX,garmin.com,漏网之鱼"
   - "DOMAIN-SUFFIX,garmin.cn,漏网之鱼"
   - "DOMAIN-SUFFIX,strava.com,漏网之鱼"

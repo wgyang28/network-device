@@ -101,6 +101,19 @@ proxy-groups: #!replace
       - 美国节点
       - 节点选择
       - DIRECT
+  - name: 谷歌服务
+    icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Google_Search.png
+    type: select
+    proxies:
+      - 节点选择
+      - 自动选择
+      - 美国节点
+      - 香港节点
+      - 台湾节点
+      - 狮城节点
+      - 日本节点
+      - 手动切换
+      - DIRECT
   - name: 谷歌FCM
     icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Google_Search.png
     type: select
@@ -244,6 +257,15 @@ rule-providers:
     format: mrs
     url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/anthropic.mrs
     path: ./ruleset/anthropic.mrs
+    interval: 86400
+
+  # ── Google 通用服务 ────────────────────────────────────────
+  Google:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/google.mrs
+    path: ./ruleset/google.mrs
     interval: 86400
 
   # ── Google FCM ─────────────────────────────────────────────
@@ -516,9 +538,12 @@ rules: #!replace
   # AI 服务（不走香港）
   - "RULE-SET,OpenAI,AI-UNHK"
   - "RULE-SET,Anthropic,AI-UNHK"
+  # Google 通用服务
+  - "RULE-SET,Google,谷歌服务"
   # Google FCM
   - "RULE-SET,GoogleFCM,谷歌FCM"
-  - "RULE-SET,GoogleCN,谷歌FCM"
+  # Google CN 直连
+  - "RULE-SET,GoogleCN,DIRECT"
   # Steam CN 直连
   - "RULE-SET,SteamCN,DIRECT"
   # 微软服务

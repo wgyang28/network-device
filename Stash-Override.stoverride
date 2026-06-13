@@ -42,7 +42,6 @@ proxy-groups: #!replace
   - name: AI
     icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/AI.png
     type: select
-    include-all: true
     proxies:
       - 香港节点
       - 狮城节点

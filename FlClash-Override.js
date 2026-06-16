@@ -1,0 +1,284 @@
+// FlClash 覆写脚本
+// 同步自 Clash-Party-Override，规则集换用 MetaCubeX/mrs 格式
+// 语法：FlClash 覆写脚本以 main(config) 返回值整体替换/合并字段
+// - proxy-groups / rules：整体替换（覆盖机场默认自动策略组与默认规则）
+// - rule-providers：与机场原有 providers 合并，同名 key 以本脚本为准
+
+const proxyGroups = [
+  {
+    name: "节点选择",
+    icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Proxy.png",
+    type: "select",
+    proxies: ["自动选择", "台湾节点", "狮城节点", "日本节点", "美国节点", "香港节点", "手动切换", "DIRECT"],
+  },
+  {
+    name: "手动切换",
+    icon: "https://testingcf.jsdelivr.net/gh/shindgewongxj/WHATSINStash@master/icon/select.png",
+    "include-all": true,
+    type: "select",
+  },
+  {
+    name: "自动选择",
+    icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Auto.png",
+    type: "url-test",
+    "include-all": true,
+    interval: 300,
+    tolerance: 50,
+    lazy: true,
+  },
+  {
+    name: "电报消息",
+    icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Telegram.png",
+    type: "select",
+    proxies: ["节点选择", "自动选择", "狮城节点", "台湾节点", "日本节点", "美国节点", "香港节点", "手动切换", "DIRECT"],
+  },
+  {
+    name: "AI",
+    icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/AI.png",
+    type: "select",
+    proxies: ["香港节点", "狮城节点", "美国节点"],
+  },
+  {
+    name: "油管视频",
+    icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/YouTube.png",
+    type: "select",
+    proxies: ["节点选择", "自动选择", "狮城节点", "香港节点", "台湾节点", "日本节点", "美国节点", "手动切换", "DIRECT"],
+  },
+  {
+    name: "国外媒体",
+    icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/ForeignMedia.png",
+    type: "select",
+    proxies: ["节点选择", "自动选择", "香港节点", "台湾节点", "狮城节点", "日本节点", "美国节点", "手动切换", "DIRECT"],
+  },
+  {
+    name: "Zoom",
+    icon: "https://testingcf.jsdelivr.net/gh/Semporia/Hand-Painted-icon@master/Universal/Zoom.png",
+    type: "select",
+    proxies: ["DIRECT", "美国节点"],
+  },
+  {
+    name: "PayPal",
+    icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/PayPal.png",
+    type: "select",
+    proxies: ["美国节点", "节点选择", "DIRECT"],
+  },
+  {
+    name: "谷歌服务",
+    icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Google_Search.png",
+    type: "select",
+    proxies: ["节点选择", "自动选择", "美国节点", "香港节点", "台湾节点", "狮城节点", "日本节点", "手动切换", "DIRECT"],
+  },
+  {
+    name: "谷歌FCM",
+    icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Google_Search.png",
+    type: "select",
+    proxies: ["DIRECT", "节点选择", "美国节点", "台湾节点", "狮城节点", "日本节点", "香港节点", "手动切换"],
+  },
+  {
+    name: "微软服务",
+    icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Microsoft.png",
+    type: "select",
+    proxies: ["DIRECT", "香港节点", "美国节点"],
+  },
+  {
+    name: "苹果服务",
+    icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Apple.png",
+    type: "select",
+    proxies: ["DIRECT", "节点选择", "美国节点", "香港节点", "台湾节点", "狮城节点", "日本节点", "手动切换"],
+  },
+  {
+    name: "游戏平台",
+    icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Game.png",
+    type: "select",
+    proxies: ["DIRECT", "节点选择", "美国节点", "香港节点", "台湾节点", "狮城节点", "日本节点", "手动切换"],
+  },
+  {
+    name: "漏网之鱼",
+    icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Final.png",
+    type: "select",
+    proxies: ["节点选择", "自动选择", "DIRECT", "香港节点", "台湾节点", "狮城节点", "日本节点", "美国节点", "手动切换"],
+  },
+  {
+    name: "香港节点",
+    icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Hong_Kong.png",
+    "include-all": true,
+    filter: "(?i)港|HK|hk|Hong Kong|HongKong|懒人",
+    type: "url-test",
+    interval: 300,
+    tolerance: 50,
+    lazy: true,
+  },
+  {
+    name: "日本节点",
+    icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Japan.png",
+    "include-all": true,
+    filter: "(?i)日本|川日|东京|大阪|泉日|埼玉|沪日|深日|JP|Japan",
+    type: "url-test",
+    interval: 300,
+    tolerance: 50,
+    lazy: true,
+  },
+  {
+    name: "美国节点",
+    icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/United_States.png",
+    "include-all": true,
+    filter: "(?i)美|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|拉斯维加斯|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥|United States",
+    type: "url-test",
+    interval: 300,
+    tolerance: 10,
+    lazy: true,
+  },
+  {
+    name: "台湾节点",
+    icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Taiwan.png",
+    "include-all": true,
+    filter: "(?i)台|新北|彰化|TW|Taiwan",
+    type: "url-test",
+    interval: 300,
+    tolerance: 50,
+    lazy: true,
+  },
+  {
+    name: "狮城节点",
+    icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Singapore.png",
+    "include-all": true,
+    filter: "(?i)新加坡|坡|狮城|SG|Singapore",
+    type: "url-test",
+    interval: 300,
+    tolerance: 50,
+    lazy: true,
+  },
+  {
+    name: "GLOBAL",
+    icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Global.png",
+    "include-all": true,
+    type: "select",
+    proxies: ["节点选择", "手动切换", "自动选择", "DIRECT", "香港节点", "美国节点"],
+  },
+];
+
+const ruleProviders = {
+  LocalAreaNetwork: { type: "http", behavior: "ipcidr", format: "mrs", url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/private.mrs", path: "./ruleset/LocalAreaNetwork.mrs", interval: 86400 },
+  BanAD: { type: "http", behavior: "domain", format: "mrs", url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/category-ads-all.mrs", path: "./ruleset/BanAD.mrs", interval: 86400 },
+  OpenAI: { type: "http", behavior: "domain", format: "mrs", url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/openai.mrs", path: "./ruleset/openai.mrs", interval: 86400 },
+  Anthropic: { type: "http", behavior: "domain", format: "mrs", url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/anthropic.mrs", path: "./ruleset/anthropic.mrs", interval: 86400 },
+  Google: { type: "http", behavior: "domain", format: "mrs", url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/google.mrs", path: "./ruleset/google.mrs", interval: 86400 },
+  GoogleFCM: { type: "http", behavior: "classical", format: "text", url: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/Ruleset/GoogleFCM.list", path: "./ruleset/GoogleFCM.list", interval: 86400 },
+  GoogleCN: { type: "http", behavior: "domain", format: "mrs", url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/google@cn.mrs", path: "./ruleset/GoogleCN.mrs", interval: 86400 },
+  OneDrive: { type: "http", behavior: "domain", format: "mrs", url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/onedrive.mrs", path: "./ruleset/onedrive.mrs", interval: 86400 },
+  Microsoft: { type: "http", behavior: "domain", format: "mrs", url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/microsoft.mrs", path: "./ruleset/microsoft.mrs", interval: 86400 },
+  Bing: { type: "http", behavior: "domain", format: "mrs", url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/bing.mrs", path: "./ruleset/bing.mrs", interval: 86400 },
+  Apple: { type: "http", behavior: "domain", format: "mrs", url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/apple.mrs", path: "./ruleset/apple.mrs", interval: 86400 },
+  Telegram: { type: "http", behavior: "ipcidr", format: "mrs", url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/telegram.mrs", path: "./ruleset/telegram-ip.mrs", interval: 86400 },
+  TelegramDomain: { type: "http", behavior: "domain", format: "mrs", url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/telegram.mrs", path: "./ruleset/telegram-domain.mrs", interval: 86400 },
+  Steam: { type: "http", behavior: "domain", format: "mrs", url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/steam.mrs", path: "./ruleset/steam.mrs", interval: 86400 },
+  SteamCN: { type: "http", behavior: "domain", format: "mrs", url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/steam@cn.mrs", path: "./ruleset/steamcn.mrs", interval: 86400 },
+  Epic: { type: "http", behavior: "classical", format: "text", url: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/Ruleset/Epic.list", path: "./ruleset/Epic.list", interval: 86400 },
+  Nintendo: { type: "http", behavior: "domain", format: "mrs", url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/nintendo.mrs", path: "./ruleset/nintendo.mrs", interval: 86400 },
+  YouTube: { type: "http", behavior: "domain", format: "mrs", url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/youtube.mrs", path: "./ruleset/youtube.mrs", interval: 86400 },
+  Netflix: { type: "http", behavior: "domain", format: "mrs", url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/netflix.mrs", path: "./ruleset/netflix.mrs", interval: 86400 },
+  ProxyMedia: { type: "http", behavior: "classical", format: "text", url: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/ProxyMedia.list", path: "./ruleset/ProxyMedia.list", interval: 86400 },
+  ProxyGFWlist: { type: "http", behavior: "domain", format: "mrs", url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/gfw.mrs", path: "./ruleset/gfw.mrs", interval: 86400 },
+  Instagram: { type: "http", behavior: "domain", format: "mrs", url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/instagram.mrs", path: "./ruleset/instagram.mrs", interval: 86400 },
+  Facebook: { type: "http", behavior: "domain", format: "mrs", url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/facebook.mrs", path: "./ruleset/facebook.mrs", interval: 86400 },
+  Twitter: { type: "http", behavior: "domain", format: "mrs", url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/twitter.mrs", path: "./ruleset/twitter.mrs", interval: 86400 },
+  Dropbox: { type: "http", behavior: "domain", format: "mrs", url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/dropbox.mrs", path: "./ruleset/dropbox.mrs", interval: 86400 },
+  Spotify: { type: "http", behavior: "domain", format: "mrs", url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/spotify.mrs", path: "./ruleset/spotify.mrs", interval: 86400 },
+  PayPal: { type: "http", behavior: "domain", format: "mrs", url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/paypal.mrs", path: "./ruleset/paypal.mrs", interval: 86400 },
+  BBC: { type: "http", behavior: "domain", format: "mrs", url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/bbc.mrs", path: "./ruleset/bbc.mrs", interval: 86400 },
+  Zoom: { type: "http", behavior: "classical", format: "text", url: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/Ruleset/Zoom.list", path: "./ruleset/Zoom.list", interval: 86400 },
+  ChinaDomain: { type: "http", behavior: "domain", format: "mrs", url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/cn.mrs", path: "./ruleset/cn-domain.mrs", interval: 86400 },
+  ChinaIP: { type: "http", behavior: "ipcidr", format: "mrs", url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/cn.mrs", path: "./ruleset/cn-ip.mrs", interval: 86400 },
+};
+
+const rules = [
+  // 进程直连（macOS 专属）
+  "PROCESS-NAME,ToDesk,DIRECT",
+  "PROCESS-NAME,APTV,DIRECT",
+  "PROCESS-NAME,zoom,Zoom",
+  "RULE-SET,Zoom,Zoom",
+
+  // 学术 / 教育直连
+  "DOMAIN-SUFFIX,ruc.edu.cn,DIRECT",
+  "DOMAIN-SUFFIX,ucass.edu.cn,DIRECT",
+  "DOMAIN-SUFFIX,cnki.net,DIRECT",
+  "DOMAIN-KEYWORD,oversea.cnki,DIRECT",
+
+  // 其他直连
+  "DOMAIN,dns.alidns.com,DIRECT",
+  "DOMAIN,appstorrent.ru,DIRECT",
+  "DOMAIN-SUFFIX,ra2web.com,DIRECT",
+  "DOMAIN-SUFFIX,11af.cn,DIRECT",
+  "DOMAIN-SUFFIX,cnouyi.care,DIRECT",
+  "DOMAIN-KEYWORD,oyunfor.com,DIRECT",
+  "DOMAIN-KEYWORD,nobepay,DIRECT",
+
+  // 社交媒体
+  "DOMAIN-SUFFIX,reddit.com,漏网之鱼",
+  "DOMAIN-SUFFIX,linkedin.com,漏网之鱼",
+  "DOMAIN-SUFFIX,licdn.com,漏网之鱼",
+
+  // 流媒体 / 娱乐
+  "DOMAIN-SUFFIX,micu.hk,国外媒体",
+  "DOMAIN-KEYWORD,mytvsuper,香港节点",
+  "DOMAIN-SUFFIX,ptsplus.tv,台湾节点",
+  "RULE-SET,Instagram,节点选择",
+  "RULE-SET,Facebook,节点选择",
+  "RULE-SET,Twitter,漏网之鱼",
+  "RULE-SET,Dropbox,漏网之鱼",
+  "RULE-SET,Spotify,国外媒体",
+  "RULE-SET,PayPal,PayPal",
+  "RULE-SET,BBC,国外媒体",
+
+  // 局域网直连
+  "RULE-SET,LocalAreaNetwork,DIRECT",
+  // 广告拦截
+  "RULE-SET,BanAD,REJECT",
+  // AI 服务
+  "RULE-SET,OpenAI,AI",
+  "RULE-SET,Anthropic,AI",
+  // Google 通用服务
+  "RULE-SET,Google,谷歌服务",
+  // Google FCM
+  "RULE-SET,GoogleFCM,谷歌FCM",
+  // Google CN 直连
+  "RULE-SET,GoogleCN,DIRECT",
+  // Steam CN 直连
+  "RULE-SET,SteamCN,DIRECT",
+  // 微软服务
+  "RULE-SET,Bing,微软服务",
+  "RULE-SET,OneDrive,微软服务",
+  "RULE-SET,Microsoft,微软服务",
+  // 苹果服务
+  "RULE-SET,Apple,苹果服务",
+  // Telegram
+  "RULE-SET,TelegramDomain,电报消息",
+  "RULE-SET,Telegram,电报消息",
+  // 游戏平台
+  "RULE-SET,Epic,游戏平台",
+  "RULE-SET,Steam,游戏平台",
+  "RULE-SET,Nintendo,游戏平台",
+  // 流媒体
+  "RULE-SET,YouTube,油管视频",
+  "RULE-SET,Netflix,国外媒体",
+  "RULE-SET,ProxyMedia,国外媒体",
+  // 代理域名
+  "RULE-SET,ProxyGFWlist,节点选择",
+  // Garmin/Strava
+  "DOMAIN-SUFFIX,garmin.com,漏网之鱼",
+  "DOMAIN-SUFFIX,garmin.cn,漏网之鱼",
+  "DOMAIN-SUFFIX,strava.com,漏网之鱼",
+  // 中国域名/IP 直连
+  "RULE-SET,ChinaDomain,DIRECT",
+  "RULE-SET,ChinaIP,DIRECT,no-resolve",
+  // 兜底
+  "GEOIP,CN,DIRECT",
+  "MATCH,漏网之鱼",
+];
+
+const main = (config) => {
+  config["proxy-groups"] = proxyGroups;
+  config["rule-providers"] = Object.assign({}, config["rule-providers"], ruleProviders);
+  config["rules"] = rules;
+  return config;
+};

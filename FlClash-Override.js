@@ -36,7 +36,7 @@ const proxyGroups = [
     name: "AI",
     icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/AI.png",
     type: "select",
-    proxies: ["香港节点", "狮城节点", "美国节点"],
+    proxies: ["美国节点"],
   },
   {
     name: "油管视频",
@@ -203,6 +203,7 @@ const rules = [
   "DOMAIN-SUFFIX,ucass.edu.cn,DIRECT",
   "DOMAIN-SUFFIX,cnki.net,DIRECT",
   "DOMAIN-KEYWORD,oversea.cnki,DIRECT",
+  "DOMAIN-SUFFIX,sagepub.com,自动选择",
 
   // 其他直连
   "DOMAIN,dns.alidns.com,DIRECT",

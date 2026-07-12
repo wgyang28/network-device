@@ -21,7 +21,7 @@ const proxyGroups = [
     name: "自动选择",
     icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Auto.png",
     type: "url-test",
-    "include-all": true,
+    proxies: ["香港节点", "台湾节点", "狮城节点", "日本节点", "美国节点"],
     interval: 300,
     tolerance: 50,
     lazy: true,

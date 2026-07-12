@@ -273,6 +273,13 @@ rule-providers:
     url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/microsoft.mrs
     path: ./ruleset/microsoft.mrs
     interval: 86400
+  GitHub:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/github.mrs
+    path: ./ruleset/github.mrs
+    interval: 86400
   Bing:
     type: http
     behavior: domain
@@ -478,6 +485,7 @@ rules: #!replace
   - RULE-SET,Bing,微软服务
   - RULE-SET,OneDrive,微软服务
   - RULE-SET,Microsoft,微软服务
+  - RULE-SET,GitHub,微软服务
   # 苹果服务
   - RULE-SET,Apple,苹果服务
   # Telegram

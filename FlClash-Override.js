@@ -167,6 +167,7 @@ const ruleProviders = {
   GoogleCN: { type: "http", behavior: "domain", format: "mrs", url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/google@cn.mrs", path: "./ruleset/GoogleCN.mrs", interval: 86400 },
   OneDrive: { type: "http", behavior: "domain", format: "mrs", url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/onedrive.mrs", path: "./ruleset/onedrive.mrs", interval: 86400 },
   Microsoft: { type: "http", behavior: "domain", format: "mrs", url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/microsoft.mrs", path: "./ruleset/microsoft.mrs", interval: 86400 },
+  GitHub: { type: "http", behavior: "domain", format: "mrs", url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/github.mrs", path: "./ruleset/github.mrs", interval: 86400 },
   Bing: { type: "http", behavior: "domain", format: "mrs", url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/bing.mrs", path: "./ruleset/bing.mrs", interval: 86400 },
   Apple: { type: "http", behavior: "domain", format: "mrs", url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/apple.mrs", path: "./ruleset/apple.mrs", interval: 86400 },
   Telegram: { type: "http", behavior: "ipcidr", format: "mrs", url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/telegram.mrs", path: "./ruleset/telegram-ip.mrs", interval: 86400 },
@@ -250,6 +251,7 @@ const rules = [
   "RULE-SET,Bing,微软服务",
   "RULE-SET,OneDrive,微软服务",
   "RULE-SET,Microsoft,微软服务",
+  "RULE-SET,GitHub,微软服务",
   // 苹果服务
   "RULE-SET,Apple,苹果服务",
   // Telegram

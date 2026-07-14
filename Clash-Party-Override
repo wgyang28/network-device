@@ -61,6 +61,8 @@ proxy-groups: #!replace
     type: select
     proxies:
       - 美国节点
+      - 节点选择
+      - 自动选择
   - name: 油管视频
     icon: https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/YouTube.png
     type: select
@@ -98,6 +100,8 @@ proxy-groups: #!replace
     type: select
     proxies:
       - 美国节点
+      - 节点选择
+      - 自动选择
       - 节点选择
       - DIRECT
   - name: 谷歌服务
@@ -255,6 +259,13 @@ rule-providers:
     format: mrs
     url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/anthropic.mrs
     path: ./ruleset/anthropic.mrs
+    interval: 86400
+  xAI:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/xai.mrs
+    path: ./ruleset/xai.mrs
     interval: 86400
 
   # ── Google 通用服务 ────────────────────────────────────────
@@ -545,6 +556,7 @@ rules: #!replace
   # AI 服务
   - "RULE-SET,OpenAI,AI"
   - "RULE-SET,Anthropic,AI"
+  - "RULE-SET,xAI,AI"
   # Google 通用服务
   - "RULE-SET,Google,谷歌服务"
   # Google FCM

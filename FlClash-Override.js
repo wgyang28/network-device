@@ -36,7 +36,7 @@ const proxyGroups = [
     name: "AI",
     icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/AI.png",
     type: "select",
-    proxies: ["美国节点"],
+    proxies: ["美国节点", "节点选择", "自动选择"],
   },
   {
     name: "油管视频",
@@ -162,6 +162,7 @@ const ruleProviders = {
   BanAD: { type: "http", behavior: "domain", format: "mrs", url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/category-ads-all.mrs", path: "./ruleset/BanAD.mrs", interval: 86400 },
   OpenAI: { type: "http", behavior: "domain", format: "mrs", url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/openai.mrs", path: "./ruleset/openai.mrs", interval: 86400 },
   Anthropic: { type: "http", behavior: "domain", format: "mrs", url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/anthropic.mrs", path: "./ruleset/anthropic.mrs", interval: 86400 },
+  xAI: { type: "http", behavior: "domain", format: "mrs", url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/xai.mrs", path: "./ruleset/xai.mrs", interval: 86400 },
   Google: { type: "http", behavior: "domain", format: "mrs", url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/google.mrs", path: "./ruleset/google.mrs", interval: 86400 },
   GoogleFCM: { type: "http", behavior: "classical", format: "text", url: "https://testingcf.jsdelivr.net/gh/ACL4SSR/ACL4SSR@master/Clash/Ruleset/GoogleFCM.list", path: "./ruleset/GoogleFCM.list", interval: 86400 },
   GoogleCN: { type: "http", behavior: "domain", format: "mrs", url: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/google@cn.mrs", path: "./ruleset/GoogleCN.mrs", interval: 86400 },
@@ -239,6 +240,7 @@ const rules = [
   // AI 服务
   "RULE-SET,OpenAI,AI",
   "RULE-SET,Anthropic,AI",
+  "RULE-SET,xAI,AI",
   // Google 通用服务
   "RULE-SET,Google,谷歌服务",
   // Google FCM
